@@ -1,4 +1,3 @@
-Sure! Here's a detailed `README.md` file for your digit classifier web app:
 
 ```markdown
 # Digit Classifier Web App
