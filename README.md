@@ -140,11 +140,6 @@ To run the web app, follow these steps:
    - Ensure that the canvas is properly set up and drawing is enabled with mouse events.
    - Check the `clearCanvas` functionality to ensure it only clears the canvas when clicked.
 
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
-
----
 
 Feel free to contribute to this project or modify it according to your needs!
 ```
