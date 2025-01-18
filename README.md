@@ -21,11 +21,6 @@ To run this project, you'll need to have the following Python packages installed
 - `OpenCV` - For handling image operations (if you plan to include real-time camera functionality).
 
 You can install the dependencies using `pip`:
-
-```bash
-pip install Flask tensorflow Pillow numpy opencv-python
-```
-
 ## Model
 
 This web app uses a **Convolutional Neural Network (CNN)** model trained on the **MNIST dataset**. The MNIST dataset contains 28x28 grayscale images of handwritten digits (0-9). The model predicts the digit by processing the image and returning the most likely class (digit).
