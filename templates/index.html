@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digit Classifier</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="main-section">
+            <h1>MNIST Digit Classifier</h1>
+            <div class="instructions">
+                <p>Draw a digit or upload an image for prediction:</p>
+            </div>
+
+            <!-- Canvas for drawing -->
+            <canvas id="digitCanvas" width="280" height="280"></canvas>
+
+            <!-- Upload image -->
+            <input type="file" id="imageUpload" accept="image/*">
+            <button id="predictButton">Predict Digit</button>
+
+            <!-- Prediction result -->
+            <div id="predictionResult" class="prediction-result"></div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Handle file upload
+        $('#imageUpload').change(function(e) {
+            let file = e.target.files[0];
+            let reader = new FileReader();
+            reader.onload = function(event) {
+                let img = new Image();
+                img.onload = function() {
+                    let canvas = document.getElementById('digitCanvas');
+                    let ctx = canvas.getContext('2d');
+                    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height); // Draw uploaded image
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    
+        // Handle drawing on the canvas
+        const canvas = document.getElementById('digitCanvas');
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+    
+        canvas.addEventListener('mousedown', (e) => {
+            drawing = true;
+            ctx.beginPath();
+            ctx.moveTo(e.offsetX, e.offsetY);
+        });
+    
+        canvas.addEventListener('mousemove', (e) => {
+            if (drawing) {
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.stroke();
+            }
+        });
+    
+        canvas.addEventListener('mouseup', () => {
+            drawing = false;
+        });
+    
+        // Clear the canvas
+        $('#clearCanvas').click(function() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+    
+        // Predict digit
+        $('#predictButton').click(function() {
+            // Get the image data from the canvas
+            const canvasDataUrl = canvas.toDataURL('image/png');
+            
+            // Create a FormData object to send to the server
+            let formData = new FormData();
+            formData.append('file', dataURLtoFile(canvasDataUrl, 'digit.png'));
+    
+            $.ajax({
+                url: '/predict',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.prediction) {
+                        $('#predictionResult').text(`Predicted Digit: ${response.prediction}`);
+                    } else {
+                        $('#predictionResult').text('Error: ' + response.error);
+                    }
+                },
+                error: function(err) {
+                    $('#predictionResult').text('Error: ' + err.responseJSON.error);
+                }
+            });
+        });
+    
+        // Helper function to convert a data URL to a File object
+        function dataURLtoFile(dataURL, filename) {
+            let arr = dataURL.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while(n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new File([u8arr], filename, {type: mime});
+        }
+    </script>
+    
+</body>
+</html>

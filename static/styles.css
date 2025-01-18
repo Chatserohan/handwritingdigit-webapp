@@ -1,0 +1,79 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(45deg, #f06, #4a90e2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Main Section */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-section {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 320px;
+    box-sizing: border-box;
+}
+
+h1 {
+    color: #333;
+    font-size: 24px;
+}
+
+.instructions {
+    margin-bottom: 20px;
+}
+
+canvas {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+#imageUpload {
+    margin-bottom: 20px;
+}
+
+button {
+    background-color: #4a90e2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #357ab7;
+}
+
+/* Prediction Result */
+.prediction-result {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+
+
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .main-section {
+        width: 90%;
+    }
+}
